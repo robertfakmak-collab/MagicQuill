@@ -17,7 +17,7 @@ ENV PATH="/home/${APP_USER}/.local/bin:${PATH}"
 
 # Copy the Magic Quill application and installation files
 ADD --chown=${APP_USER}:${APP_USER} MagicQuill /home/${APP_USER}/MagicQuill/MagicQuill
-ADD --chown=${APP_USER}:${APP_USER} --chmod=750 docker/install-all.sh docker/*.whl *.whl requirements.txt pyproject.toml /home/${APP_USER}/
+ADD --chown=${APP_USER}:${APP_USER} --chmod=750 docker/install-all.sh *.whl requirements.txt pyproject.toml /home/${APP_USER}/
 
 # Install Torch with GPU support.
 # RUN bash -c "/home/${APP_USER}/install-all.sh --install-miniconda --use-local-wheels"
