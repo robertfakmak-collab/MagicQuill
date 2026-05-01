@@ -102,19 +102,8 @@ def modified_sample(model, noise, positive, negative, cfg, device, sampler, sigm
     cfg_guider.set_cfg(cfg)
 
     ### Modified part ######################################################################
-    #
     to = add_model_patch_option(model)
     to['model_patch']['all_sigmas'] = sigmas
-    #
-    #sigma_start = model.get_model_object("model_sampling").percent_to_sigma(start_at)
-    #sigma_end = model.get_model_object("model_sampling").percent_to_sigma(end_at)
-    #
-    #
-    #if math.isclose(cfg, 1.0) and model_options.get("disable_cfg1_optimization", False) == False:
-    #    to['model_patch']['free_guidance'] = False
-    #else:
-    #    to['model_patch']['free_guidance'] = True
-    #
     #######################################################################################
        
     return cfg_guider.sample(noise, latent_image, sampler, sigmas, denoise_mask, callback, disable_pbar, seed)
