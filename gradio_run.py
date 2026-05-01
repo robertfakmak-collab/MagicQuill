@@ -11,7 +11,6 @@ import base64
 import io
 from fastapi import FastAPI, Request
 import uvicorn
-import requests
 from MagicQuill import folder_paths
 from MagicQuill.llava_new import LLaVAModel
 from MagicQuill.scribble_color_edit import ScribbleColorEditModel
