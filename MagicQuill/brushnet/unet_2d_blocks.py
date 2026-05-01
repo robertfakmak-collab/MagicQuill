@@ -1007,8 +1007,6 @@ class UNetMidBlock2DSimpleCrossAttn(nn.Module):
             # when attention_mask is defined: we don't even check for encoder_attention_mask.
             # this is to maintain compatibility with UnCLIP, which uses 'attention_mask' param for cross-attn masks.
             # TODO: UnCLIP should express cross-attn mask via encoder_attention_mask param instead of via attention_mask.
-            #       then we can simplify this whole if/else block to:
-            #         mask = attention_mask if encoder_hidden_states is None else encoder_attention_mask
             mask = attention_mask
 
         hidden_states = self.resnets[0](hidden_states, temb)
@@ -2142,8 +2140,6 @@ class SimpleCrossAttnDownBlock2D(nn.Module):
             # when attention_mask is defined: we don't even check for encoder_attention_mask.
             # this is to maintain compatibility with UnCLIP, which uses 'attention_mask' param for cross-attn masks.
             # TODO: UnCLIP should express cross-attn mask via encoder_attention_mask param instead of via attention_mask.
-            #       then we can simplify this whole if/else block to:
-            #         mask = attention_mask if encoder_hidden_states is None else encoder_attention_mask
             mask = attention_mask
 
         for resnet, attn in zip(self.resnets, self.attentions):
@@ -3497,8 +3493,6 @@ class SimpleCrossAttnUpBlock2D(nn.Module):
             # when attention_mask is defined: we don't even check for encoder_attention_mask.
             # this is to maintain compatibility with UnCLIP, which uses 'attention_mask' param for cross-attn masks.
             # TODO: UnCLIP should express cross-attn mask via encoder_attention_mask param instead of via attention_mask.
-            #       then we can simplify this whole if/else block to:
-            #         mask = attention_mask if encoder_hidden_states is None else encoder_attention_mask
             mask = attention_mask
 
         for resnet, attn in zip(self.resnets, self.attentions):
