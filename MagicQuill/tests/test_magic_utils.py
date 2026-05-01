@@ -82,3 +82,31 @@ def test_get_bounding_box_missing_rows_or_cols():
     mask = torch.zeros((10, 10))
     mask[2:5, 5:6] = 1.0  # Only col 5 is > 0.5
     assert get_bounding_box_from_mask(mask, padded=False) == (0.5, 0.2, 0.5, 0.4)
+
+import numpy as np
+from MagicQuill.magic_utils import cv2_resize_shortest_edge
+
+def test_cv2_resize_shortest_edge_landscape():
+    img = np.zeros((100, 200, 3), dtype=np.uint8)
+    resized = cv2_resize_shortest_edge(img, 50)
+    assert resized.shape[:2] == (50, 100)
+
+def test_cv2_resize_shortest_edge_portrait():
+    img = np.zeros((200, 100, 3), dtype=np.uint8)
+    resized = cv2_resize_shortest_edge(img, 50)
+    assert resized.shape[:2] == (100, 50)
+
+def test_cv2_resize_shortest_edge_square():
+    img = np.zeros((100, 100, 3), dtype=np.uint8)
+    resized = cv2_resize_shortest_edge(img, 50)
+    assert resized.shape[:2] == (50, 50)
+
+def test_cv2_resize_shortest_edge_upscale():
+    img = np.zeros((10, 20, 3), dtype=np.uint8)
+    resized = cv2_resize_shortest_edge(img, 50)
+    assert resized.shape[:2] == (50, 100)
+
+def test_cv2_resize_shortest_edge_upscale_portrait():
+    img = np.zeros((20, 10, 3), dtype=np.uint8)
+    resized = cv2_resize_shortest_edge(img, 50)
+    assert resized.shape[:2] == (100, 50)
