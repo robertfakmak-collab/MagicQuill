@@ -130,7 +130,12 @@ def get_colored_contour(img1, img2, threshold=10):
 
 def closest_colour(requested_colour):
     min_colours = {}
-    for key, name in webcolors.CSS3_HEX_TO_NAMES.items():
+    try:
+        css3_hex_to_names = webcolors.CSS3_HEX_TO_NAMES
+    except AttributeError:
+        css3_hex_to_names = webcolors._definitions._CSS3_HEX_TO_NAMES
+
+    for key, name in css3_hex_to_names.items():
         r_c, g_c, b_c = webcolors.hex_to_rgb(key)
         rd = (r_c - requested_colour[0].item()) ** 2
         gd = (g_c - requested_colour[1].item()) ** 2

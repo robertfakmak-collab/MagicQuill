@@ -1,6 +1,6 @@
 import torch
 import pytest
-from MagicQuill.magic_utils import get_bounding_box_from_mask
+from MagicQuill.magic_utils import get_bounding_box_from_mask, rgb_to_name
 
 def test_get_bounding_box_empty_mask():
     # Test completely empty mask
@@ -82,3 +82,21 @@ def test_get_bounding_box_missing_rows_or_cols():
     mask = torch.zeros((10, 10))
     mask[2:5, 5:6] = 1.0  # Only col 5 is > 0.5
     assert get_bounding_box_from_mask(mask, padded=False) == (0.5, 0.2, 0.5, 0.4)
+
+def test_rgb_to_name_exact_match():
+    # Test an exact match for a named color
+    assert rgb_to_name((0, 0, 0)) == "black"
+    assert rgb_to_name((255, 255, 255)) == "white"
+    assert rgb_to_name((255, 0, 0)) == "red"
+
+def test_rgb_to_name_closest_match():
+    # Test an RGB color that doesn't exactly match any named web color
+    # (255, 1, 1) is very close to red (255, 0, 0)
+    # The rgb_to_name function expects tuples of elements that have a `.item()` method,
+    # as used in closest_colour (e.g., requested_colour[0].item()). We will use PyTorch tensors.
+
+    color1 = (torch.tensor(254), torch.tensor(255), torch.tensor(255))
+    assert rgb_to_name(color1) == "white"
+
+    color2 = (torch.tensor(255), torch.tensor(1), torch.tensor(1))
+    assert rgb_to_name(color2) == "red"
