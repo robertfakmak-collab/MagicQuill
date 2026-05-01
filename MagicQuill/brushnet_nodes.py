@@ -12,7 +12,6 @@ import comfy.sd
 import comfy.utils
 import comfy.model_management
 import comfy.sd1_clip
-import comfy.ldm.models.autoencoder
 import comfy.supported_models
 
 import folder_paths
