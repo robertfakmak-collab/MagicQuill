@@ -639,8 +639,6 @@ class PiDiNet(nn.Module):
         outputs = [e1, e2, e3, e4]
 
         output = self.classifier(torch.cat(outputs, dim=1))
-        #if not self.training:
-        #    return torch.sigmoid(output)
 
         outputs.append(output)
         outputs = [torch.sigmoid(r) for r in outputs]
