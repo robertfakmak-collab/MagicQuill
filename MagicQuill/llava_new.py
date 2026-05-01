@@ -1,13 +1,8 @@
 import torch
-from transformers import TextStreamer
-import webcolors
 import os
-import random
-from collections import Counter
-import numpy as np
 from torchvision import transforms
 from .magic_utils import get_colored_contour, find_different_colors, get_bounding_box_from_mask
-from llava.conversation import conv_templates, SeparatorStyle
+from llava.conversation import conv_templates
 from llava.model.builder import load_pretrained_model
 from llava.mm_utils import get_model_name_from_path, expand2square, tokenizer_image_token
 from llava.constants import (
