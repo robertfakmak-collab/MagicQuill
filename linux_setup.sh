@@ -48,6 +48,37 @@ pip install -e MagicQuill/LLaVA/
 echo "Installing additional requirements..."
 pip install -r requirements.txt
 
+# Create desktop shortcut
+echo "Creating desktop shortcut..."
+if command -v xdg-user-dir &> /dev/null; then
+    DESKTOP_DIR=$(xdg-user-dir DESKTOP)
+else
+    DESKTOP_DIR="$HOME/Desktop"
+fi
+
+SHORTCUT_PATH="$DESKTOP_DIR/MagicQuill.desktop"
+
+# Create Desktop directory if it doesn't exist
+mkdir -p "$DESKTOP_DIR"
+
+PYTHON_EXEC=$(which python)
+REPO_DIR=$(pwd)
+
+cat > "$SHORTCUT_PATH" << EOL
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=MagicQuill
+Comment=Launch MagicQuill Interface
+Exec=bash -c 'cd "$REPO_DIR" && export CUDA_VISIBLE_DEVICES=0 && "$PYTHON_EXEC" gradio_run.py'
+Icon=utilities-terminal
+Terminal=true
+Categories=Graphics;
+EOL
+
+chmod +x "$SHORTCUT_PATH"
+echo "Desktop shortcut created at $SHORTCUT_PATH"
+
 # Run MagicQuill
 echo "Starting MagicQuill..."
 export CUDA_VISIBLE_DEVICES=0

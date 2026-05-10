@@ -46,6 +46,32 @@ pip install -e MagicQuill\LLaVA\
 echo Installing additional requirements...
 pip install -r requirements.txt
 
+:: Create launcher script
+echo Creating launcher script...
+set LAUNCHER_BAT="%CD%\launch_magicquill.bat"
+echo @echo off > %LAUNCHER_BAT%
+echo cd /d "%%~dp0" >> %LAUNCHER_BAT%
+for /f "delims=" %%i in ('conda info --base') do set CONDA_BASE=%%i
+echo call "%CONDA_BASE%\Scripts\activate.bat" "%CONDA_PREFIX%" >> %LAUNCHER_BAT%
+echo set CUDA_VISIBLE_DEVICES=0 >> %LAUNCHER_BAT%
+echo python gradio_run.py >> %LAUNCHER_BAT%
+echo pause >> %LAUNCHER_BAT%
+
+:: Create desktop shortcut
+echo Creating desktop shortcut...
+set VBS_SCRIPT="%TEMP%\CreateShortcut.vbs"
+echo Set oWS = WScript.CreateObject("WScript.Shell") > %VBS_SCRIPT%
+echo sLinkFile = oWS.SpecialFolders("Desktop") ^& "\MagicQuill.lnk" >> %VBS_SCRIPT%
+echo Set oLink = oWS.CreateShortcut(sLinkFile) >> %VBS_SCRIPT%
+echo oLink.TargetPath = %LAUNCHER_BAT% >> %VBS_SCRIPT%
+echo oLink.Description = "Launch MagicQuill Interface" >> %VBS_SCRIPT%
+echo oLink.WorkingDirectory = "%CD%" >> %VBS_SCRIPT%
+echo oLink.IconLocation = "cmd.exe" >> %VBS_SCRIPT%
+echo oLink.Save >> %VBS_SCRIPT%
+cscript /nologo %VBS_SCRIPT%
+del %VBS_SCRIPT%
+echo Desktop shortcut created.
+
 :: Run MagicQuill
 echo Starting MagicQuill...
 set CUDA_VISIBLE_DEVICES=0
