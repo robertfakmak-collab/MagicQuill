@@ -3,11 +3,9 @@ $condaEnvList = conda env list | Out-String
 if ($condaEnvList -notmatch "MagicQuill") {
     Write-Host "Creating conda environment MagicQuill..."
     conda create -n MagicQuill python=3.10 -y
-
     # Initialize conda
     Write-Host "Initializing conda..."
     conda init powershell
-
     Write-Host "Environment created. Please restart the script."
     Read-Host -Prompt "Press Enter to continue"
     exit 0
