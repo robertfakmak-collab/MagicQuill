@@ -39,6 +39,8 @@ if not exist MagicQuill\LLaVA (
 echo Directory MagicQuill\LLaVA does not exist. Ensure the folder structure is correct.
 exit /b 1
 )
+powershell -Command "(Get-Content MagicQuill\LLaVA\predict.py) -replace 'requests.get\(url, allow_redirects=True\)', 'requests.get(url, allow_redirects=True, timeout=10)' | Set-Content MagicQuill\LLaVA\predict.py"
+powershell -Command "(Get-Content MagicQuill\LLaVA\predict.py) -replace 'response = requests.get\(image_file\)', 'response = requests.get(image_file, timeout=10)' | Set-Content MagicQuill\LLaVA\predict.py"
 copy /y pyproject.toml MagicQuill\LLaVA
 pip install -e MagicQuill\LLaVA\
 
