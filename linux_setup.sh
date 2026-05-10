@@ -50,10 +50,16 @@ pip install -r requirements.txt
 
 # Create desktop shortcut
 echo "Creating desktop shortcut..."
-SHORTCUT_PATH="$HOME/Desktop/MagicQuill.desktop"
+if command -v xdg-user-dir &> /dev/null; then
+    DESKTOP_DIR=$(xdg-user-dir DESKTOP)
+else
+    DESKTOP_DIR="$HOME/Desktop"
+fi
+
+SHORTCUT_PATH="$DESKTOP_DIR/MagicQuill.desktop"
 
 # Create Desktop directory if it doesn't exist
-mkdir -p "$HOME/Desktop"
+mkdir -p "$DESKTOP_DIR"
 
 PYTHON_EXEC=$(which python)
 REPO_DIR=$(pwd)
