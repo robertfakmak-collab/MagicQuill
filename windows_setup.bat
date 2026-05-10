@@ -46,6 +46,26 @@ pip install -e MagicQuill\LLaVA\
 echo Installing additional requirements...
 pip install -r requirements.txt
 
+:: Create desktop shortcut
+echo Creating desktop shortcut...
+
+:: Get absolute path of python in current environment
+for /f "delims=" %%i in ('python -c "import sys; print(sys.executable)"') do set PYTHON_EXEC=%%i
+
+set VBS_SCRIPT="%TEMP%\CreateShortcut.vbs"
+echo Set oWS = WScript.CreateObject("WScript.Shell") > %VBS_SCRIPT%
+echo sLinkFile = oWS.ExpandEnvironmentStrings("%USERPROFILE%\Desktop\MagicQuill.lnk") >> %VBS_SCRIPT%
+echo Set oLink = oWS.CreateShortcut(sLinkFile) >> %VBS_SCRIPT%
+echo oLink.TargetPath = "cmd.exe" >> %VBS_SCRIPT%
+echo oLink.Arguments = "/c cd /d ""%CD%"" & set CUDA_VISIBLE_DEVICES=0 & ""%PYTHON_EXEC%"" gradio_run.py" >> %VBS_SCRIPT%
+echo oLink.Description = "Launch MagicQuill Interface" >> %VBS_SCRIPT%
+echo oLink.WorkingDirectory = "%CD%" >> %VBS_SCRIPT%
+echo oLink.IconLocation = "cmd.exe" >> %VBS_SCRIPT%
+echo oLink.Save >> %VBS_SCRIPT%
+cscript /nologo %VBS_SCRIPT%
+del %VBS_SCRIPT%
+echo Desktop shortcut created.
+
 :: Run MagicQuill
 echo Starting MagicQuill...
 set CUDA_VISIBLE_DEVICES=0
