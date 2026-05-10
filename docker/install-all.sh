@@ -137,6 +137,8 @@ if [ ! -d "./MagicQuill/MagicQuill/LLaVA" ]; then
     echo "[ERROR] Directory MagicQuill/LLaVA does not exist. Ensure the folder structure is correct."
     exit 1
 fi
+sed -i 's/requests.get(url, allow_redirects=True)/requests.get(url, allow_redirects=True, timeout=10)/' ./MagicQuill/MagicQuill/LLaVA/predict.py
+sed -i 's/response = requests.get(image_file)/response = requests.get(image_file, timeout=10)/' ./MagicQuill/MagicQuill/LLaVA/predict.py
 cp -f pyproject.toml ./MagicQuill/MagicQuill/LLaVA/
 pip install -e ./MagicQuill/MagicQuill/LLaVA/
 
