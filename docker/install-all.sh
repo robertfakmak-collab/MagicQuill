@@ -144,6 +144,10 @@ pip install -e ./MagicQuill/MagicQuill/LLaVA/
 echo "[INFO] Installing additional requirements..."
 pip install -r requirements.txt
 
+# Patch LLaVA
+echo "[INFO] Patching LLaVA..."
+python patch_sglang_worker.py || echo "[WARN] Failed to patch sglang_worker.py, continuing anyway..."
+
 # Clean up
 echo "[INFO] Cleaning up..."
 rm -f ./gradio_magicquill-0.0.1-py3-none-any.whl

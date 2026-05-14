@@ -46,6 +46,9 @@ pip install -e MagicQuill\LLaVA\
 echo Installing additional requirements...
 pip install -r requirements.txt
 
+:: Patch LLaVA
+python patch_sglang_worker.py || echo Failed to patch sglang_worker.py, continuing anyway...
+
 :: Run MagicQuill
 echo Starting MagicQuill...
 set CUDA_VISIBLE_DEVICES=0
