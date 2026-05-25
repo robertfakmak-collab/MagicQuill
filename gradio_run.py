@@ -1,4 +1,3 @@
-import subprocess
 import os
 import gradio as gr
 from gradio_magicquill import MagicQuill
