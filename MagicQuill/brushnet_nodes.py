@@ -6,7 +6,6 @@ import torch
 import torchvision.transforms as T
 import torch.nn.functional as F
 from accelerate import init_empty_weights, load_checkpoint_and_dispatch
-import sys
 
 import comfy.sd
 import comfy.utils
@@ -30,7 +29,6 @@ powerpaint_config_file = os.path.join(current_directory,'brushnet', 'powerpaint.
 sd15_scaling_factor = 0.18215
 sdxl_scaling_factor = 0.13025
 
-print(sys.path)
 ModelsToUnload = [comfy.sd1_clip.SD1ClipModel, 
                   comfy.ldm.models.autoencoder.AutoencoderKL
                  ]
@@ -794,7 +792,6 @@ def brushnet_inference(x, timesteps, transformer_options, debug):
     timesteps = timesteps.detach().clone()
     timesteps = timesteps.to(torch_dtype).to(brushnet.device)
 
-    total_steps = mp['total_steps']
     step = mp['step']
 
     added_cond_kwargs = {}
